@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Happy Birthday</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Happy Birthday Sofia!</h1>
+
+            <div class="cake">
+                <div class="cake-base"></div>
+                <div class="cake-middle"></div>
+                <div class="cake-top"></div>
+                <div class="candle"></div>
+                <div class="flame"></div>
+            </div>
+            <p class="message">
+                Espero que hoy y el resto de tus días estén llenos de bendiciones y alegría.!<br>
+                Me gustaría compartir más cumpleaños, celebraciones y días contigo, si así lo deseas.
+            </p>
+
+            <button class="button" id="celebrateBtn">Celebrate!</button>
+            <button class="button" id="letter">Algo</button>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const colors = ['#ff4081', '#3f51b5', '#4caf50', '#ffc107', '#9c27b0'];
+
+                for (let i = 0; i < 10; i++){
+                    createBalloon(i, colors);
+                }
+
+                const celebrateBtn = document.getElementById('celebrateBtn');
+                const statusEl = document.getElementById('status');
+                celebrateBtn.addEventListener('click', function() {
+                    createConfetti();
+                    try {
+                        playBirthdaySong();
+                        statusEl.textContent = "Playing tune!";
+                    } catch (e) {
+                        console.error("Audio playback error:", e);
+                        statusEl.textContent = "Celebrating with confetti! (Audio unavailable)";
+                    }
+                });
+
+                function createBalloon(index, colors) {
+                    const balloon = document.createElement('div');
+                    balloon.className = 'balloon';
+                    balloon.style.backgroundColor = colors[index % colors.length];
+                    
+                    
+                    const left = Math.random() * 100;
+                    const delay = Math.random() * 3;
+                    
+                    balloon.style.left = `${left}vw`;
+                    balloon.style.animationDelay = `${delay}s`;
+                    balloon.style.bottom = `-50px`;
+                    
+                    document.body.appendChild(balloon);
+                }
+
+                function createConfetti() {
+                    for (let i = 0; i < 100; i++) {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        
+                        // Random properties
+                        const left = Math.random() * 100;
+                        const delay = Math.random() * 3;
+                        const duration = 3 + Math.random() * 2;
+                        const color = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        confetti.style.left = `${left}vw`;
+                        confetti.style.backgroundColor = color;
+                        confetti.style.animation = `confettiFall ${duration}s ease-in ${delay}s forwards`;
+                        
+                        document.body.appendChild(confetti);
+                        
+                        
+                        setTimeout(() => {
+                            confetti.remove();
+                        }, (duration + delay) * 1000);
+                    }
+                }
+
+                function playBirthdaySong() {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    const audioCtx = new AudioContext();
+                    
+                    const notes = [
+                        { note: 'C4', duration: 0.5 },
+                        { note: 'C4', duration: 0.5 },
+                        { note: 'D4', duration: 1 },
+                        { note: 'C4', duration: 1 },
+                        { note: 'F4', duration: 1 },
+                        { note: 'E4', duration: 2 },
+                        { note: 'C4', duration: 0.5 },
+                        { note: 'C4', duration: 0.5 },
+                        { note: 'D4', duration: 1 },
+                        { note: 'C4', duration: 1 },
+                        { note: 'G4', duration: 1 },
+                        { note: 'F4', duration: 2 }
+                    ];
+                    
+                    const frequencies = {
+                        'C4': 261.63,
+                        'D4': 293.66,
+                        'E4': 329.63,
+                        'F4': 349.23,
+                        'G4': 392.00
+                    };
+                    
+                    let time = audioCtx.currentTime;
+                    
+                    notes.forEach(noteObj => {
+                        const oscillator = audioCtx.createOscillator();
+                        const gainNode = audioCtx.createGain();
+                        
+                        oscillator.type = 'sine';
+                        oscillator.frequency.value = frequencies[noteObj.note];
+                        
+                        gainNode.gain.setValueAtTime(0.5, time);
+                        gainNode.gain.exponentialRampToValueAtTime(0.001, time + noteObj.duration);
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioCtx.destination);
+                        
+                        oscillator.start(time);
+                        oscillator.stop(time + noteObj.duration);
+                        
+                        time += noteObj.duration;
+                    });
+                }
+            })
+        </script>
+    </body>
+</html>

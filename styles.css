@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f1ff;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+.container {
+    max-width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    color: #ff4081;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cake {
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.cake-base {
+    width: 180px;
+    height: 100px;
+    background: #f9c6d2;
+    border-radius: 10px 10px 0 0;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+}
+
+.cake-middle {
+    width: 150px;
+    height: 60px;
+    background: #ffb6c1;
+    border-radius: 10px 10px 0 0;
+    position: absolute;
+    bottom: 100px;
+    left: 25px;
+}
+
+.cake-top {
+    width: 120px;
+    height: 40px;
+    background: #ff69b4;
+    border-radius: 10px 10px 0 0;
+    position: absolute;
+    bottom: 160px;
+    left: 40px;
+}
+
+.candle {
+    width: 10px;
+    height: 30px;
+    background: #fdfd96;
+    position: absolute;
+    bottom: 200px;
+    left: 95px;
+    border-radius: 5px;
+}
+
+.flame {
+    width: 14px;
+    height: 20px;
+    background: #ff9800;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: absolute;
+    bottom: 230px;
+    left: 93px;
+    animation: flicker 0.5s infinite alternate;
+}
+
+@keyframes flicker {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.message {
+    font-size: 1.2rem;
+    margin: 20px 0;
+    line-height: 1.5;
+}
+
+.button {
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background-color: #e91e63;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.balloon {
+    position: absolute;
+    width: 40px;
+    height: 50px;
+    border-radius: 50%;
+    animation: float 5s ease-in-out infinite;
+    z-index: 0;
+}
+
+.balloon::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.1);
+    bottom: -60px;
+    left: 18px;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f00;
+    opacity: 0;
+    z-index: 0;
+}
+
+@keyframes confettiFall {
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+.status {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #666;
+    height: 20px;
+}
